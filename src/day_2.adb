@@ -4,7 +4,6 @@ with Ada.Integer_Text_IO;
 procedure Day_2 is
    type Winner is (Rock, Paper, Scissors, Draw);
    subtype Hand_Shape is Winner range Rock .. Scissors;
-   type Player is (Elf, Me, None);
 
    type Elf_Input_Character is (A, B, C);
    type My_Input_Character is (X, Y, Z);
