@@ -145,35 +145,12 @@ procedure Day_9 is
       return V;
    end Load_Instructions;
 
-   procedure Day_9_Part_1 (File_Name : String) is
-      F : TIO.File_Type;
-      Ix : Instruction_Vectors.Vector; 
-      Head, Tail : Co_Ordinate := (X => 0, Y => 0);
-      Head_Locs, Tail_Locs : Co_Ordinate_Vectors.Vector;
-      C : Co_Ordinate_Vectors.Vector;
-      Co_Ord_Set : Co_Ordinate_Sets.Set;
-   begin
-      TIO.Open (F,
-                TIO.In_File,
-                File_Name);
-      Ix := Load_Instructions (F);
-      TIO.Close (F);
-      Head_Locs := Head_Locations (Instructions => Ix, Head_Start => Head);
-      Tail_Locs := Tail_Locations (Head_Locs => Head_Locs, Tail_Start => Tail);
-      for E of Tail_Locs loop
-         Co_Ord_Set.Include (E);
-      end loop;
-      TIO.Put ("Part 1 Co-ordinates visited ");
-      IIO.Put (Integer (Co_Ord_Set.Length));
-      TIO.New_Line;
-   end Day_9_Part_1;
-
-   procedure Day_9_Part_2 (File_Name : String) is
+   procedure Day_9 (File_Name : String; Knots : Positive) is
       F : TIO.File_Type;
       Ix : Instruction_Vectors.Vector; 
       Head, Tail : Co_Ordinate := (X => 0, Y => 0);
       Head_Locs : Co_Ordinate_Vectors.Vector;
-      Tail_Locs : array (1 .. 9) of Co_Ordinate_Vectors.Vector;
+      Tail_Locs : array (1 .. Knots) of Co_Ordinate_Vectors.Vector;
       C : Co_Ordinate_Vectors.Vector;
       Co_Ord_Set : Co_Ordinate_Sets.Set;
    begin
@@ -188,15 +165,16 @@ procedure Day_9 is
          Tail_Locs (Idx) := Tail_Locations (Head_Locs => Tail_Locs (Idx - 1), Tail_Start => Tail);
       end loop;
 
-      for E of Tail_Locs (9) loop
+      for E of Tail_Locs (Knots) loop
          Co_Ord_Set.Include (E);
       end loop;
-      TIO.Put ("Part 2 Co-ordinates visited ");
+      TIO.Put ("Co-ordinates visited by knot ");
+      IIO.Put (Knots);
+      TIO.Put (" are ");
       IIO.Put (Integer (Co_Ord_Set.Length));
       TIO.New_Line;
-   end Day_9_Part_2;
+   end Day_9;
 begin
-   --Day_9_Part_1 ("files/Test_Day_9.txt");
-   Day_9_Part_1 ("files/Day_9.txt");
-   Day_9_Part_2 ("files/Day_9.txt");
+   Day_9 ("files/Day_9.txt", 1);
+   Day_9 ("files/Day_9.txt", 9);
 end Day_9;
